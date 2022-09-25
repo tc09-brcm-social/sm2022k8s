@@ -2,7 +2,7 @@
 MYPATH=$(cd $(dirname "$0"); pwd)
 cd "${MYPATH}"
 . ./env.shlib
-resetroot
+#resetroot
 resetbase
 LINES="$(grep '^.*=' env.shlib | sed 's/=.*$//')"
 for i in $LINES ; do
