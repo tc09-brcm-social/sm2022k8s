@@ -16,9 +16,6 @@ for i in $LINES ; do
         envbase "$i" "$(eval 'echo $'$i)"
     fi
 done
-envbase PSVALUES "$MYPATH/ps-values.yaml"
-envbase AGVALUES "$MYPATH/ag-values.yaml"
-DESTDIR="$(basename "$GITREPOBASE"|sed 's/.[^.]*$//')"
 rm -fr "${MYPATH}/cr${GITTO}"
 cd "${MYPATH}"
 bash "$MYPATH/clone.sh"
