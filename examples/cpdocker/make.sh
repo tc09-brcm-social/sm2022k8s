@@ -8,7 +8,6 @@ if [[ ! -z "$VERSHLIB" ]] ; then
 fi
 cd "${MYPATH}"
 . ./env.shlib
-IMAGEVER=12.8.07.2894
 buildIMAGELIST() {
     IMAGELIST="$(jaddToList "$IMAGELIST" "$FROMHOST/$FROMUSER/access-gateway:$IMAGEVER")"
     IMAGELIST="$(jaddToList "$IMAGELIST" "$FROMHOST/$FROMUSER/log-collector:$IMAGEVER")"
