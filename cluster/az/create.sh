@@ -15,7 +15,7 @@ az aks create --name "$K8SNAME" \
     --node-vm-size "$MTYPE" \
     --min-count "$MINNODES" --max-count "$MAXNODES" \
     --node-count "$MINNODES" --enable-cluster-autoscaler \
-    --ssh-key-value ~/.ssh/id_rsa.pub.git --enable-node-public-ip \
+    --ssh-key-value $SSHPUB --enable-node-public-ip \
     --resource-group "$RGNAME" --kubernetes-version "$K8SVER"
 az aks get-credentials --resource-group "$RGNAME" --name "$K8SNAME" --overwrite-existing
 MCRGNAME="MC_${RGNAME}_${K8SNAME}_${RGLOC}"
