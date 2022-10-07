@@ -19,5 +19,6 @@ done
 rm -fr "${MYPATH}/cr${GITTO}"
 cd "${MYPATH}"
 bash "$MYPATH/clone.sh"
+rm -fr "${MYPATH}/cr${GITTO}/${HELMREPO}"
 bash "$MYPATH/cphelm.sh"
 bash "$MYPATH/updrepo.sh"
