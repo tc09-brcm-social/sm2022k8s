@@ -7,7 +7,8 @@ kubectl exec -it busybox -- sh
 kubectl create -f https://k8s.io/examples/application/shell-demo.yaml
 ---
 * attrs.sh yamlfile # list all tags of the yamlfile
-* yamlsplit.sh debugOutputFromHelmInstall # create a subdirectory
+* debugsplit.sh debugOutputFromHelmInstall # create a subdirectory
 	* and split the output file into usable yaml files
+* yamlsplit.sh templateOutputYaml filenameLead - split yaml into individual yaml files
 * dockerhubls user -- PASS is configured in env.shlib
 * setkeyvalue.sh File Key Value -- set Key/Value pair in file
