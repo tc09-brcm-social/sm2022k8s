@@ -26,6 +26,8 @@ The ps- scripts are commonly used scripts to build a ps-values.yaml file.
 * ps-pstore2.sh -- policy store 2
 	* Policy Store using mssql
 	* Key Store embedded
+* ps-stores0.sh -- Audit Text, no Session Store
+	* audit store text
 * ps-stores1.sh -- Other Stores 1
 	* audit store text
 	* session store cadir
