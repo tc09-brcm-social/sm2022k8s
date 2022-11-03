@@ -31,6 +31,8 @@ subdirectory here is used to manage a particular environment.
 As of this initial release, the following sample environments
 are provided:
 
+* democadir - a quick sample demo environment that uses
+	* CA Directory as the policy store.
 * cadir1 - a sample environment that uses CA Directory as stores.
 * mssql1 - a sample environment that uses MSSQL as stores.
 * mixedstore1 - a sample environment that uses CA Directory as
