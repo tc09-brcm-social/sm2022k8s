@@ -4,3 +4,4 @@
 * cpgitbranch - copy git branch from one repo to another
 * cphelm - copy helm repository to a GITHUB page
 * smimages - list SiteMinder docker images source
+* 3rdimages - list third party docker images source used
