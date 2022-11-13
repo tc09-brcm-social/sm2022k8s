@@ -5,4 +5,4 @@ cd "${MYPATH}"
 if [[ ! -z "$VERSHLIB" ]] ; then
     . "${MYPATH}/../../base/$VERSHLIB"
 fi
-bash "$MYPATH"/ps-values.sh | bash "$MYPATH"/ps-registry0.sh
+helm show values $SMREPO/server-components $SMVER

@@ -14,6 +14,8 @@ The ps- scripts are commonly used scripts to build a ps-values.yaml file.
 
 * ps-registry.sh -- policy server (server component) docker registry
 	* allows private docker registery
+* ps-registry0.sh -- ps-registry.sh that needs yaml from stdin
+* ps-values.sh -- helm show values for ps
 * ps-pspod1.sh -- Policy Server Pod Settings
 	* Policy Server Pod enabled
 	* set three secrets
@@ -56,6 +58,8 @@ The ag- scripts are commonly used scripts to build an ag-values.yaml file.
 `
 * ag-registry.sh -- access gateway (access gateway) docker registry
 	* allows private docker registery
+* ag-registry0.sh -- ag-registry.sh that needs yaml from stdin
+* ag-values.sh -- helm show values for ag
 * ag-ps1.sh -- Registration with Policy Server
 	* set masterkey
 	* policyserver service set to use NodePort on the same cluster
