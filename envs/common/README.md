@@ -87,4 +87,11 @@ The nginx- scripts are commonly used scripts to build an nginx-values.yaml file.
 * nginx-registry0.sh -- nginx-registry.sh that needs yaml from stdin
 * nginx-values.sh -- helm show values for nginx ingress
 * nginx-default.sh -- nginx ingress default deployment
-`
+ 
+The elastic- scripts are commonly used scripts to build an elastic-values.yaml file.
+
+* elastic-registry.sh -- elastic ingress dock registry
+	* allows private docker registery
+* elastic-registry0.sh -- elastic-registry.sh that needs yaml from stdin
+* elastic-values.sh -- helm show values for elastic ingress
+* elastic-min.sh -- elastic-search minimal deployment
