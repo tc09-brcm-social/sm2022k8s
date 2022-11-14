@@ -95,3 +95,11 @@ The elastic- scripts are commonly used scripts to build an elastic-values.yaml f
 * elastic-registry0.sh -- elastic-registry.sh that needs yaml from stdin
 * elastic-values.sh -- helm show values for elastic ingress
 * elastic-min.sh -- elastic-search minimal deployment
+
+The kibana- scripts are commonly used scripts to build an kibana-values.yaml file.
+
+* kibana-registry.sh -- kibana ingress dock registry
+	* allows private docker registery
+* kibana-registry0.sh -- kibana-registry.sh that needs yaml from stdin
+* kibana-values.sh -- helm show values for kibana
+* kibana-default.sh -- kibana default deployment
