@@ -79,3 +79,12 @@ The ag- scripts are commonly used scripts to build an ag-values.yaml file.
 * ag-rconfigrGit1.sh -- access gateway runtime config retriever
 	* using GIT Server
 	* /runtime/accessgateway for Access Gateway Pod
+
+The nginx- scripts are commonly used scripts to build an nginx-values.yaml file.
+
+* nginx-registry.sh -- nginx ingress dock registry
+	* allows private docker registery
+* nginx-registry0.sh -- nginx-registry.sh that needs yaml from stdin
+* nginx-values.sh -- helm show values for nginx ingress
+* nginx-default.sh -- nginx ingress default deployment
+`
