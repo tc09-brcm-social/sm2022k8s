@@ -103,3 +103,11 @@ The kibana- scripts are commonly used scripts to build an kibana-values.yaml fil
 * kibana-registry0.sh -- kibana-registry.sh that needs yaml from stdin
 * kibana-values.sh -- helm show values for kibana
 * kibana-default.sh -- kibana default deployment
+
+The prometheus- scripts are commonly used scripts to build an prometheus-values.yaml file.
+
+* prometheus-registry.sh -- prometheus ingress dock registry
+	* allows private docker registery
+* prometheus-registry0.sh -- prometheus-registry.sh that needs yaml from stdin
+* prometheus-values.sh -- helm show values for prometheus
+* prometheus-default.sh -- prometheus default deployment
