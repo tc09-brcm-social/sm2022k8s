@@ -111,3 +111,12 @@ The prometheus- scripts are commonly used scripts to build an prometheus-values.
 * prometheus-registry0.sh -- prometheus-registry.sh that needs yaml from stdin
 * prometheus-values.sh -- helm show values for prometheus
 * prometheus-default.sh -- prometheus default deployment
+
+The sminfra- scripts are commonly used scripts to build an sminfra-values.yaml file.
+
+* sminfra-registry.sh -- sminfra ingress dock registry
+	* allows private docker registery
+* sminfra-registry0.sh -- sminfra-registry.sh that needs yaml from stdin
+* sminfra-values.sh -- helm show values for sminfra
+* fluent-default.sh -- fluent-bit (sminfra) default deployment
+* proadp-default.sh -- prometheus adaptor default deployment
