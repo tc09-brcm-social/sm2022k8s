@@ -1,0 +1,37 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kibana
+  namespace: logging
+spec:
+  version: 8.2.0
+  #image: private.registry.io/elasticsearch/elasticsearch: 8.2.0
+  elasticsearchRef:
+    name: elasticsearch
+    namespace: logging
+    serviceName: elasticsearch-es-http
+  http:
+    service:
+      spec:
+        type: ClusterIP
+    tls:
+      selfSignedCertificate:
+        subjectAltNames:
+        - dns: kibana.${DOMAIN}
+  podTemplate:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      #imagePullSecrets:
+      #- name: <registry-secret-name>
+      containers:
+        - name: kibana
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 0.5
+            limits:
+              memory: 2Gi
+              cpu: 1
+  count: 1

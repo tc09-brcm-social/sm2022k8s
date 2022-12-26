@@ -23,9 +23,9 @@ doelasticrepo() {
     }
 
 #
-## doelastichelm
+## doelasticophelm
 #
-doelastichelm() {
+doelasticophelm() {
     local _action="$1"
     local _output="$2"
     local _option="$3"
@@ -37,29 +37,80 @@ doelastichelm() {
             "$ELASTICSERVER" "$ELASTICUSERNAME" "$ELASTICPASSWORD" \
             "$LOGGING"
     fi
-    if [[ -z "$(relexist "$LOGGING" "$ELASTICREL")" ]] ; then
-        if [[ -z "$ELASTICVALUES" ]] ; then
-            helm "$_action" "$ELASTICREL" -n "$LOGGING" $ELASTICREPO/elasticsearch \
-                $ELASTICVER  \
+    if [[ -z "$(relexist "$LOGGING" "$ELASTICOPREL")" ]] ; then
+        if [[ -z "$ELASTICOPVALUES" ]] ; then
+            helm "$_action" "$ELASTICOPREL" -n "$LOGGING" $ELASTICREPO/$ELASTICOPCHART \
+                $ELASTICOPVER  \
                $_option > "$_output"
         else
-            helm "$_action" "$ELASTICREL" -n "$LOGGING" $ELASTICREPO/elasticsearch \
-	        -f "$ELASTICVALUES" \
-                $ELASTICVER  \
+            helm "$_action" "$ELASTICOPREL" -n "$LOGGING" $ELASTICREPO/$ELASTICOPCHART \
+	        -f "$ELASTICOPVALUES" \
+                $ELASTICOPVER  \
                $_option > "$_output"
         fi
     else
-        >&2 echo release $ELASTICREL exits
+        >&2 echo release $ELASTICOPREL exits
     fi
 }
+#
+## dostorageclass
+#
+dostorageclass() {
+    local _scyaml="$1"
 
+    if [[ -z "$_scyaml" ]] ; then
+        >&2 echo "not doing custom storage class"
+    else
+	scname="$(cat "$_scyaml" | yq -r '.metadata.name')"
+	if [[ -z "$(k8sobjexist "" StorageClass "$scname")" ]] ; then
+	    kubectl apply -f "$_scyaml"
+        else
+            >&2 echo StorageClass $scname exists
+	fi
+    fi
+    }
 #
-## dokibanahelm
+## doelastick8s
 #
-dokibanahelm() {
-    local _action="$1"
-    local _output="$2"
-    local _option="$3"
+doelastick8s() {
+    local _output="$1"
+    local _option="$2"
+
+    dostorageclass "$ELASTICSCYAML"
+    if [[ -z "$(k8sobjexist "$LOGGING" Elasticsearch elasticsearch)" ]] ; then
+        if [[ -z "$ELASTICYAML" ]] ; then
+	    ELASTICYAML="${MYPATH}/../base/elasticsearch.yaml"
+	fi
+	if [[ ! -z "$KIBANADEFUSERSECRET" ]] ; then
+            if [[ -z "$(k8sobjexist "$LOGGING" secret "$KIBANADEFUSERSECRET")" ]] ; then
+		kubectl create secret generic "$KIBANADEFUSERSECRET"  -n "$LOGGING" \
+                    --from-literal roles=superuser \
+                    --from-literal username="$KIBANADEFUSERNAME" \
+                    --from-literal password="$KIBANADEFUSERPWD"
+            else
+		>&2 echo Kibana default user secret $KIBANADEFUSERSECRET exists
+	    fi
+	fi
+        cat "$ELASTICYAML" \
+	    | if [[ -z "$KIBANADEFUSERSECRET" ]] ; then cat - ; else \
+		  yq -Y --arg s "$KIBANADEFUSERSECRET" \
+	              '.spec.auth.fileRealm[0].secretName = $s'
+	      fi \
+	    | yq -Y --arg n "$LOGGING" \
+		    --arg v "$(echo "$ELASTICVER" | cut -f2 -d=)" \
+		    '.metadata.namespace = $n
+		    | .spec.version = $v ' \
+            | kubectl apply -f - $_option > "$_output"
+    else
+        >&2 echo Elasticsearch elasticsearch exits
+    fi
+}
+#
+## dokibanak8s
+#
+dokibanak8s() {
+    local _output="$1"
+    local _option="$2"
 
     createtls "${LOGGING}" "$LOGGINGTLS" "$LOGGINGPEM" "$LOGGINGKEY"
     if [[ -z "$KIBANADOCKERSECRET" ]] ; then
@@ -69,47 +120,36 @@ dokibanahelm() {
             "$KIBANASERVER" "$KIBANAUSERNAME" "$KIBANAPASSWORD" \
             "$LOGGING"
     fi
-    if [[ -z "$(relexist "$LOGGING" "$KIBANAREL")" ]] ; then
-        if [[ "$KIBANAVER" == "--version 7.9.3" ]] ; then
-            if [[ -z "$KIBANAVALUES" ]] ; then
-                helm "$_action" "$KIBANAREL" -n "$LOGGING" $ELASTICREPO/kibana \
-                    --set ingress.enabled=true \
-                    --set "ingress.annotations.kubernetes\.io/ingress\.class"=nginx \
-                    --set ingress.hosts[0]="${KIBANANAME}" \
-                    --set ingress.tls[0].secretName="${KIBANASECRET}" \
-                    --set ingress.tls[0].hosts[0]="${KIBANANAME}" \
-                    $KIBANAVER \
-                    $_option > "$_output"
-            else
-                helm "$_action" "$KIBANAREL" -n "$LOGGING" $ELASTICREPO/kibana \
-		    -f "$KIBANAVALUES" \
-                    $KIBANAVER \
-                    $_option > "$_output"
-	    fi
-        elif [[ "$KIBANAVER" == "--version 7.16.3" ]] ; then
-            if [[ -z "$KIBANAVALUES" ]] ; then
-                helm "$_action" "$KIBANAREL" -n "$LOGGING" $ELASTICREPO/kibana \
-	            --timeout 20m0s \
-                    --set ingress.enabled=true \
-                    --set "ingress.className"=nginx \
-                    --set ingress.hosts[0].host="${KIBANANAME}" \
-	            --set ingress.hosts[0].paths[0].path="/" \
-                    --set ingress.tls[0].secretName="${KIBANASECRET}" \
-                    --set ingress.tls[0].hosts[0]="${KIBANANAME}" \
-                    $KIBANAVER \
-                    $_option > "$_output"
-            else
-                helm "$_action" "$KIBANAREL" -n "$LOGGING" $ELASTICREPO/kibana \
-		    -f "$KIBANAVALUES" \
-	            --timeout 20m0s \
-                    $KIBANAVER \
-                    $_option > "$_output"
-	    fi
-        else
-            >&2 echo "Unsupported Kibana version $KIBANAVER"
-        fi
+    if [[ -z "$(k8sobjexist "$LOGGING" Kibana kibana)" ]] ; then
+        if [[ -z "$KIBANAYAML" ]] ; then
+	    KIBANAYAML="${MYPATH}/../base/kibana.yaml"
+	fi
+            cat "$KIBANAYAML" \
+                | yq -Y --arg n "$LOGGING" \
+		     --arg v "$(echo "$ELASTICVER" | cut -f2 -d=)" \
+		     --arg d "$KIBANANAME" \
+		      '.metadata.namespace = $n
+		      | .spec.version = $v
+		      | .spec.http.tls.selfSignedCertificate.subjectAltNames[0].dns = $d
+		      ' \
+                | kubectl apply -f - $_option > "$_output"
     else
-        >&2 echo release $KIBANAREL exits
+        >&2 echo Kibana kibana exits
+    fi
+    if [[ -z "$(k8sobjexist "$LOGGING" Ingress kibana)" ]] ; then
+        if [[ -z "$KIBANASVCYAML" ]] ; then
+	    KIBANASVCYAML="${MYPATH}/../base/kibanasvc.yaml"
+	fi
+            cat "$KIBANASVCYAML" \
+	        | yq -Y --arg n "$LOGGING" --arg s "$LOGGINGTLS" \
+		     --arg d "$KIBANANAME" \
+		      '.metadata.namespace = $n
+                       | .spec.rules[0].host = $d
+		       | .spec.tls[0].hosts[0] = $d
+		       | .spec.tls[0].secretName = $s ' \
+                | kubectl apply -f - $_option > "$_output"
+    else
+        >&2 echo Ingress kibana exits
     fi
     }
 
@@ -129,57 +169,92 @@ doprometheusrepo() {
     helm repo update
     }
 #
-## doprometheushelm
+## doprometheusophelm
 #
-doprometheushelm() {
+doprometheusophelm() {
     local _action="$1"
     local _output="$2"
     local _option="$3"
 
     createtls "${MONITORING}" "$MONITORINGTLS" "$MONITORINGPEM" "$MONITORINGKEY"
     if [[ -z "$PROMETHEUSDOCKERSECRET" ]] ; then
-        >&2 echo Not using Kibana docker registry pull secret
+        >&2 echo Not using Prometheus docker registry pull secret
     else
         doPullSecret "$PROMETHEUSDOCKERSECRET" \
             "$PROMETHEUSSERVER" "$PROMETHEUSUSERNAME" "$PROMETHEUSPASSWORD" \
             "$MONITORING"
     fi
+    dostorageclass "$PROMETHEUSSCYAML"
     if [[ -z "$(relexist "$MONITORING" "$PROMETHEUSREL")" ]] ; then
-        if [[ -z "$PROMETHEUSVALUES" ]] ; then
-            helm "$_action" "$PROMETHEUSREL" -n "$MONITORING" $PROMETHEUSREPO/kube-prometheus-stack \
-                --set nameOverride="prometheus-operator" \
-                --set prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.accessModes[0]=ReadWriteOnce \
-                --set prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.resources.requests.storage=20Gi \
-                --set alertmanager.ingress.enabled=true \
-                --set "alertmanager.ingress.annotations.kubernetes\.io/ingress\.class"=nginx \
-                --set alertmanager.ingress.tls[0].secretName="$ALERTMANAGERSECRET" \
-                --set alertmanager.ingress.hosts[0]="$ALERTMANAGERNAME" \
-                --set alertmanager.ingress.tls[0].hosts[0]="$ALERTMANAGERNAME" \
-                --set grafana.ingress.enabled=true \
-                --set "grafana.ingress.annotations.kubernetes\.io/ingress\.class"=nginx \
-                --set grafana.ingress.tls[0].secretName="$GRAFANASECRET" \
-                --set grafana.ingress.hosts[0]="$GRAFANANAME" \
-                --set grafana.ingress.tls[0].hosts[0]="$GRAFANANAME" \
+            helm "$_action" "$PROMETHEUSREL" -n "$MONITORING" $PROMETHEUSREPO/kube-prometheus \
+	        -f "$PROMETHEUSOPVALUES" \
                 $PROMETHEUSVER \
                 $_option > "$_output"
-        else
-            helm "$_action" "$PROMETHEUSREL" -n "$MONITORING" $PROMETHEUSREPO/kube-prometheus-stack \
-	        -f "$PROMETHEUSVALUES" \
-                $PROMETHEUSVER \
-                $_option > "$_output"
-        fi
     else
         >&2 echo release $PROMETHEUSREL exits
     fi
     }
 #
+## dografanaophelm
+#
+dografanaophelm() {
+    local _action="$1"
+    local _output="$2"
+    local _option="$3"
+
+    createtls "${MONITORING}" "$MONITORINGTLS" "$MONITORINGPEM" "$MONITORINGKEY"
+    if [[ -z "$PROMETHEUSDOCKERSECRET" ]] ; then
+        >&2 echo Not using Prometheus docker registry pull secret
+    else
+        doPullSecret "$PROMETHEUSDOCKERSECRET" \
+            "$PROMETHEUSSERVER" "$PROMETHEUSUSERNAME" "$PROMETHEUSPASSWORD" \
+            "$MONITORING"
+    fi
+    if [[ -z "$(relexist "$MONITORING" "$GRAFANAREL")" ]] ; then
+            helm "$_action" "$GRAFANAREL" -n "$MONITORING" $PROMETHEUSREPO/grafana-operator \
+	        -f "$GRAFANAOPVALUES" \
+                $GRAFANAVER \
+                $_option > "$_output"
+    else
+        >&2 echo release $GRAFANAREL exits
+    fi
+    }
+#
+## dografanadsk8s
+#
+dografanadsk8s() {
+    local _output="$1"
+    local _option="$2"
+
+    if [[ -z "$(k8sobjexist "$MONITORING" GrafanaDataSource grafana-datasource)" ]] ; then
+        if [[ -z "$GRAFANADSYAML" ]] ; then
+	    GRAFANADSYAML="${MYPATH}/../base/grafana-datasource.yaml"
+	fi
+            cat "$GRAFANADSYAML" \
+                | yq -Y --arg n "$MONITORING" \
+		      '.metadata.namespace = $n
+		      ' \
+                | kubectl apply -n "$MONITORING" -f - $_option > "$_output"
+    else
+        >&2 echo GrafanaDataSource grafana-datasource exits
+    fi
+    }
+
+#
 ## Starts Here
 #
+
+#
+## Deploy Elasticsearch and Kibana for Logging
+#
 doelasticrepo
-doelastichelm template "$ELASTICREL.$LOGGING.$$.yaml"
-doelastichelm install "$ELASTICREL.$LOGGING.$$.debug" "--debug"
-dokibanahelm template "$KIBANAREL.$LOGGING.$$.yaml"
-dokibanahelm install "$KIBANAREL.$LOGGING.$$.debug" "--debug"
+doelasticophelm template "$ELASTICOPREL.$LOGGING.$$.yaml"
+doelasticophelm install "$ELASTICOPREL.$LOGGING.$$.debug" "--debug"
+doelastick8s "$ELASTICREL.$LOGGING.$$.debug"
+dokibanak8s "$KIBANAREL.$LOGGING.$$.debug"
 doprometheusrepo
-doprometheushelm template "$PROMETHEUSREL.$MONITORING.$$.yaml"
-doprometheushelm install "$PROMETHEUSREL.$MONITORING.$$.debug" "--debug"
+doprometheusophelm template "$PROMETHEUSREL.$MONITORING.$$.yaml"
+doprometheusophelm install "$PROMETHEUSREL.$MONITORING.$$.debug" "--debug"
+dografanaophelm template "$GRAFANAREL.$MONITORING.$$.yaml"
+dografanaophelm install "$GRAFANAREL.$MONITORING.$$.debug" "--debug"
+dografanadsk8s "grafanads.$MONITORING.$$.debug"
