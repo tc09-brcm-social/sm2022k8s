@@ -1,0 +1,52 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch-master
+  namespace: logging
+spec:
+  version: 8.2.0
+  #image: private.registry.io/elasticsearch/elasticsearch: 8.2.0
+  http:
+    service:
+      metadata:
+  nodeSets:
+    - config:
+        node.roles:
+          - master
+          - data
+        node.store.allow_mmap: false
+      podTemplate:
+        metadata:
+          labels:
+            app: elasticsearch-master
+        spec:
+          #imagePullSecrets:
+          #- name: <registry-secret-name>
+          containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 4Gi
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 1
+      volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          storageClassName: test
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+      name: default
+      count: 1
+  volumeClaimDeletePolicy: DeleteOnScaledownOnly
+  auth:
+    fileRealm:
+     #To create new elastic users, see: https://www.elastic.co/guide/en/cloud-on-k8s/master/k8s-users-and-roles.html
+#    - secretName: kibana-user ##uncomment if you want to create users/set password in elastic. 
