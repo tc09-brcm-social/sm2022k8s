@@ -1,1 +1,1 @@
-kubectl get pods --all-namespaces | awk '{print $3, $2}'
+kubectl get pods --all-namespaces | awk '{print $3, $4, $2}'
