@@ -9,3 +9,8 @@
 	* requires a running cluster,
 	* ususally used during build time
 * ssp-infra-values.sh -- helm show values
+* ssp helm chart **
+* ssp-default.sh -- default settings
+* ssp-ingress.sh -- nginx ingress settings
+* ssp-swagger1.sh -- enable swagger UI
+* ssp-values.sh -- helm show values
