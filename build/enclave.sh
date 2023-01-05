@@ -64,6 +64,8 @@ dostorageclass() {
 	scname="$(cat "$_scyaml" | yq -r '.metadata.name')"
 	if [[ -z "$(k8sobjexist "" StorageClass "$scname")" ]] ; then
 	    kubectl apply -f "$_scyaml"
+	    bash "$MYPATH/../k8s/StorageClass/cleardefault.sh"
+	    bash "$MYPATH/../k8s/StorageClass/setdefault.sh" "$scname"
         else
             >&2 echo StorageClass $scname exists
 	fi

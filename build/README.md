@@ -32,3 +32,14 @@ The following is a list of helpful scripts
 * rmsminfra.sh -- helm uninstall siteminder integration with 
 	* enclave services
 * rmsmps.sh -- helm uninstall server components
+
+# ssp Auth Hub
+After a cluster has been created run the shell script in the following order.
+Between steps, you may want to use pods.sh to check a brief status
+of all the pods before continue to the next step.
+* ingress.sh
+* enclave.sh
+	* This is a re-written enclave.sh after 2022 Oct AuthHub
+* ssp.sh -- includes both ssp-infra and ssp helm charts
+* sspdata.sh -- ssp-data helm chart for risk factor data
+* sspsa.sh -- AuthHub sample App
