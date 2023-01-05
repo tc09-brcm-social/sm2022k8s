@@ -14,3 +14,6 @@
 * ssp-ingress.sh -- nginx ingress settings
 * ssp-swagger1.sh -- enable swagger UI
 * ssp-values.sh -- helm show values
+* ssp-data helm chart **
+* ssp-data-default.sh -- ssp-data default settings
+* ssp-data-values.sh -- helm show values
