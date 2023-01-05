@@ -17,3 +17,18 @@
 * ssp-data helm chart **
 * ssp-data-default.sh -- ssp-data default settings
 * ssp-data-values.sh -- helm show values
+# ssp-sample helm chart
+* Sample values combinations
+	* bash ../common/ssp/ssp-sample-app-values.sh \
+	*    | bash ../common/ssp/ssp-sample-app-default.sh \
+	*    | bash ../common/ssp/ssp-sample-app-dirLB.sh
+* Sample RT values combinations
+	* bash ../common/ssp/ssp-sample-app-ingress.sh \
+	*    | bash ../common/ssp/ssp-sample-app-service.sh
+* ssp-sample-app-default.sh -- ssp-sample helm chart efault settings
+* ssp-sample-app-dirLB.sh -- symantec sample directory using LoadBalancer
+* ssp-sample-app-dirNP.sh -- symantec sample directory using NodePort
+* ssp-sample-app-ingress.sh -- nginx ingress settings
+* ssp-sample-app-service.sh -- service and OIDC App settings
+* ssp-sample-app-values.sh -- helm show values
+
