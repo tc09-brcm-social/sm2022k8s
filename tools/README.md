@@ -12,3 +12,7 @@ kubectl create -f https://k8s.io/examples/application/shell-demo.yaml
 * yamlsplit.sh templateOutputYaml filenameLead - split yaml into individual yaml files
 * dockerhubls user -- PASS is configured in env.shlib
 * setkeyvalue.sh File Key Value -- set Key/Value pair in file
+* pmenv.sh -- print AuthHub preceeded secrets
+	* in PostMan environment variables settings
+* ahcurlenv.sh env.shlibFilePath -- print AuthHub preceeded secrets
+	* in an env.shlib file
