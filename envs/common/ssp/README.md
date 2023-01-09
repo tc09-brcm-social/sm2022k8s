@@ -9,11 +9,18 @@
 	* requires a running cluster,
 	* ususally used during build time
 * ssp-infra-values.sh -- helm show values
-* ssp helm chart **
+# ssp helm chart 
+* Sample values combinations
+	* bash ../common/ssp/ssp-values.sh \
+	*     | bash ../common/ssp/ssp-default.sh \
+	*     | bash ../common/ssp/ssp-ingress.sh \
+	*     | bash ../common/ssp/ssp-swagger1.sh \
+	*     | bash ../common/ssp/ssp-demo.sh
 * ssp-default.sh -- default settings
 * ssp-ingress.sh -- nginx ingress settings
 * ssp-swagger1.sh -- enable swagger UI
 * ssp-values.sh -- helm show values
+* ssp-demo.sh -- set to demo mode installation
 * ssp-data helm chart **
 * ssp-data-default.sh -- ssp-data default settings
 * ssp-data-values.sh -- helm show values
