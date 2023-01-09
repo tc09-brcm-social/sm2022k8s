@@ -4,4 +4,5 @@ cd "${MYPATH}"
 bash ../common/ssp/ssp-values.sh \
     | bash ../common/ssp/ssp-default.sh \
     | bash ../common/ssp/ssp-ingress.sh \
-    | bash ../common/ssp/ssp-swagger1.sh
+    | bash ../common/ssp/ssp-swagger1.sh \
+    | bash ../common/ssp/ssp-demo.sh
