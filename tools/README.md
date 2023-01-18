@@ -16,3 +16,5 @@ kubectl create -f https://k8s.io/examples/application/shell-demo.yaml
 	* in PostMan environment variables settings
 * ahcurlenv.sh env.shlibFilePath -- print AuthHub preceeded secrets
 	* in an env.shlib file
+* apphosts.sh optionalFile -- appends bash build/hosts.sh to an
+	* optional file. sudo is used when optionFile is given.
