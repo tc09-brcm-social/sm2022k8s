@@ -18,3 +18,5 @@ kubectl create -f https://k8s.io/examples/application/shell-demo.yaml
 	* in an env.shlib file
 * apphosts.sh optionalFile -- appends bash build/hosts.sh to an
 	* optional file. sudo is used when optionFile is given.
+* smcurlenv.sh env.shlibFilePath -- print info into siteminder RestAPI
+	* env.shlib to allow easy integration of deployment and RestAPI
