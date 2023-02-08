@@ -1,6 +1,7 @@
 # op
 Operation Phase utilities. There are platform specific facilities.
 * nodesip.sh - returns external IPs for all nodes.
+* nodesInternal.sh - returns internal IPs for all worker nodes.
 * nodeip.sh nodeName -- return external IP of a particular node
 * adminpods.sh -- list administrative server pods and their k8s worker nodes
 	* This is deprecated. Use admin/pods.sh instead
