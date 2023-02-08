@@ -14,6 +14,15 @@ of all the pods before continue to the next step.
 	* Required for Full Implementation
 * smps.sh -- siteminder policy server
 	* Required
+* A step to configure the SiteMinder objects required for 
+	* access gateway to register with the SiteMinder
+	* Policy Server.
+	* This can be done using the SiteMinder RestAPI
+	* tools/apphosts /etc/hosts # to modify the local host file
+		* if necessary.
+	* tools/smcurlenv.sh filePathToExamples/smagk8s/env.shlib
+	* change directory to SiteMinder RestAPI examples/smagk8s
+	* bash make.sh there to create the objects.
 * smag.sh -- siteminder access gateway
 	* Required for Full Implementation
 	* Before running smag, you need to make sure the three
