@@ -3,8 +3,15 @@ A sample AuthHub Demo environment.
 
 Procedure to set it up
 * configure the <<home>>>/env.shlib to pick the Cloud Provider
+	* for example the CLOUD is set to gcp when using Google
 * configure the cluster/<<CLOUD>>/env.shlib to set proper
 	* Cloud Provider details including number of worker nodes
+	* for example, AuthHub can take as many as 5 worker nodes
+	* so you may set the following:
+	* MTYPE=n2d-standard-4
+	* NODESNUM=3
+	* MINNODES=3
+	* MAXNODES=6
 * cd <<home>>/envs/ahdemo
 * bash make.sh # to set environement variables
 * cd <<home>>/cluster
@@ -13,9 +20,3 @@ Procedure to set it up
 * once a cluster is successfully created
 * cd <<home>>build
 * follow the README.md there to deploy AuthHub
-
-* patchenv.sh optionalEnvSHLIB #of another environment
-	* this is to take the local env.shlib to patch
-	* another environment.
-	* Note that it does not preserve the
-	* deferred evaluation of single quoted values 
