@@ -1,0 +1,1 @@
+# envs/common/sminfra
