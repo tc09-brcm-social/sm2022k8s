@@ -88,10 +88,14 @@ dosminfra() {
 	        $SMVER \
 	        $_option > "$_output"
         else
-            helm "$_action" "$SMINFRAREL" $SMREPO/siteminder-infra -n ${SMINFRANS} \
-	        -f "$SMINFRAVALUES" \
-	        $SMVER \
-	        $_option > "$_output"
+            cat "$SMINFRAVALUES" \
+                | if [[ -z "$SMINFRARTVALUES" ]] ; then cat - ; else \
+                      bash "$SMINFRARTVALUES"
+                  fi \
+                | helm "$_action" "$SMINFRAREL" $SMREPO/siteminder-infra -n ${SMINFRANS} \
+	              -f - \
+	              $SMVER \
+	              $_option > "$_output"
         fi
 #helm ls -n ${PSNS}
 #kubectl get all -n ${PSNS}

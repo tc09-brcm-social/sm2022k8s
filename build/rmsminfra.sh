@@ -3,8 +3,8 @@ MYPATH=$(cd $(dirname "$0"); pwd)
 cd "${MYPATH}"
 . "${MYPATH}/../base/env.shlib"
 
-createns "$SMINFRANS"
-createns "$PROADPNS"
+#createns "$SMINFRANS"
+#createns "$PROADPNS"
 
 #
 ## Deploy Prometheus adapter from SiteMinder Infra chart
@@ -14,6 +14,7 @@ if [[ -z "$(relexist "$PROADPNS" "$PROADPREL")" ]] ; then
 else
    helm uninstall "$PROADPREL" -n ${PROADPNS}
 fi
+kubectl delete ns "${PROADPNS}"
 
 #
 ## Deploy Fluent Bit from SiteMinder Infra chart
@@ -23,3 +24,4 @@ if [[ -z "$(relexist "$SMINFRANS" "$SMINFRAREL")" ]] ; then
 else
     helm uninstall "$SMINFRAREL" -n ${SMINFRANS}
 fi
+kubectl delete ns "${SMINFRANS}"
