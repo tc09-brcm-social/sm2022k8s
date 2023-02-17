@@ -7,7 +7,7 @@ patchenv() {
     if [[ -z "$FILE" ]] ; then
 	echo "$1"=\"$2\"
     else
-        x=$(bash "$MYPATH/../../tools/setkeyvalue.sh" "$FILE" "$1" "$2")
+        x=$(bash "$MYPATH/../../tools/setkeyvalue.sh" "$FILE" "$1" "$2" "'")
         >&2 echo $1
     fi
     }
