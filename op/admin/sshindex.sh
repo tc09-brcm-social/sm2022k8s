@@ -12,7 +12,7 @@ if [[ -z "$INDEX" ]] ; then
     INDEX=0
 fi
 OPT="$2"
-POD="$(bash "$MYPATH/pods.sh" | jq ".[$INDEX]")"
+POD="$(bash "$MYPATH/containers.sh" | jq ".[$INDEX]")"
 NS=$(echo "$POD" | jq -r '.ns')
 NAME=$(echo "$POD" | jq -r '.name')
 kubectl exec -it "$NAME" -n "$NS" $OPT -- bash
