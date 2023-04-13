@@ -4,6 +4,8 @@ during the Operation stage of a SiteMinder Administrative Server pod.
 * history.sh -- show the Administrative Server helm install history
 * pods.sh -- show the current Administrative Server pods and 
 	* container status
+* containers.sh -- show the current Administrative Server pods and 
+	* container status
 * restart.sh -- rollout restart the Administrative Server pods
 * scale.sh optionalScaleCount -- the default count is 1
 	* to scale down, use a negative count number
