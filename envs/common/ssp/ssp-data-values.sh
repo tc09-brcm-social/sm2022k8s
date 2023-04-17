@@ -5,4 +5,4 @@ cd "${MYPATH}"
 if [[ ! -z "$VERSHLIB" ]] ; then
     . "${MYPATH}/../../../base/$VERSHLIB"
 fi
-helm show values $SSPREPO/ssp-data $SSPVER
+helm show values $SSPREPO/ssp-data $SSPDATAVER
