@@ -1,0 +1,10 @@
+#!/bin/bash
+MYPATH=$(cd $(dirname "$0"); pwd)
+. "${MYPATH}/env.shlib"
+if [[ -z "$(repoexist "$ENCLAVEREPO")" ]] ; then
+    helm repo add "$ENCLAVEREPO" "$ENCLAVEURL"
+else
+    >&2 echo repo $ENCLAVEREPO exists
+fi
+helm repo update
+helm search repo "$ENCLAVEREPO" --versions
