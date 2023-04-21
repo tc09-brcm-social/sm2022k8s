@@ -12,3 +12,7 @@ works for you.
 Please note that the worker node level auto scaling for
 AWS needs more work. This release currently does not
 enable this feature.
+
+* sestsc.sh -- set default Storage Class to use
+* detachpolicy.sh -- detach policy attached during
+	* setsc.sh
