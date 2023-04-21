@@ -17,3 +17,13 @@ Commonly used tools to help build a ps-values.yaml.
 	* optionalParameter is expected to be
 	* a server-components version default value SMVER
 * enfdefault.sh -- enforce certain required defaults
+* adminpod1.sh -- Administrative Server Pod enabled
+* configrGit1.sh -- Config Retriver Using Git
+* ingress1.sh -- Admin UI Ingress configuration
+* pscNP.sh -- policy server container using NodePort and
+	* others
+* pspod1.sh -- policy server pod enabled
+* pstore1.sh -- Policy Store using Symantec Directory
+* rconfigrGit1.sh -- runtime Config Retriever Using Git
+* registry.sh -- docker registry settings
+* stores0.sh -- simple other stores, no session store
