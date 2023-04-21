@@ -1,11 +1,15 @@
 #!/bin/bash
 MYPATH=$(cd $(dirname "$0"); pwd)
 cd "${MYPATH}"
-bash ../common/ps-registry.sh \
-    | bash ../common/ps-pspod1.sh \
-    | bash ../common/ps-admin1.sh \
-    | bash ../common/ps/pstore1.sh \
-    | bash ../common/ps-stores0.sh \
-    | bash ../common/ps-psNP.sh \
-    | bash ../common/ps-configrGit1.sh \
-    | bash ../common/ps-rconfigrGit1.sh
+bash ../common/sc/values.sh \
+    | bash ../common/sc/registry.sh \
+    | bash ../common/sc/baseCompat.sh \
+    | bash ../common/sc/pstore1.sh \
+    | bash ../common/sc/stores0.sh \
+    | bash ../common/sc/pscNP.sh \
+    | bash ../common/sc/configrGit1.sh \
+    | bash ../common/sc/rconfigrGit1.sh \
+    | bash ../common/sc/pspod1.sh \
+    | bash ../common/sc/ingress1.sh \
+    | bash ../common/sc/adminpod1.sh \
+    | bash ../common/sc/enfdefault.sh
