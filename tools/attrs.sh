@@ -3,9 +3,12 @@ F=$1
 L=.
 qattr() {
     local s="$1"
+#    >&2 echo see "$s"
     if [[ "$s" == *"-"* ]] ; then
         echo '"'"$s"'"'
     elif [[ "$s" == *"/"* ]] ; then
+        echo '"'"$s"'"'
+    elif [[ "$s" =~ (' ') ]] ; then
         echo '"'"$s"'"'
     else
 	echo "$s"
@@ -13,7 +16,8 @@ qattr() {
     }
 
 prattr() {
-    local _lead=$1
+    local _lead="$1"
+#    >&2 echo ddd "$_lead"
     local KEYS
     local i
     local len
@@ -30,7 +34,7 @@ prattr() {
         len=$(echo "$KEYS" | jq 'length')
 #>&2 echo $len "$KEYS"
         for (( i = 0 ; i < $len ; ++i )) ; do
-		prattr "$_lead."$(qattr "$(echo "$KEYS" | jq -r ".[$i]")")""
+		prattr "$_lead.""$(qattr "$(echo "$KEYS" | jq -r ".[$i]")")"""
         done
         if [ "$len" -eq 0 ] ; then
             echo $_lead
