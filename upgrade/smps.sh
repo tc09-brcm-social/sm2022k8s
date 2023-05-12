@@ -83,6 +83,6 @@ if [[ "$(psrelpreq "$(echo "$SMVER" | cut -d= -f2)" "$(echo "$SMVERNEW" | cut -d
   >&2 echo to upgrade
   uppspod
 else
-  >&2 echo quite upgrade
+  >&2 echo pre-requsites are not met, quit upgrading
 fi
 
