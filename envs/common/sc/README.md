@@ -27,3 +27,4 @@ Commonly used tools to help build a ps-values.yaml.
 * rconfigrGit1.sh -- runtime Config Retriever Using Git
 * registry.sh -- docker registry settings
 * stores0.sh -- simple other stores, no session store
+* upgradeps1.sh -- upgrade policy server pod from SMTAG to SMNEWTAG
