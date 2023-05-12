@@ -5,4 +5,5 @@ cd "${MYPATH}"
 if [[ ! -z "$VERSHLIB" ]] ; then
     . "${MYPATH}/../../../base/$VERSHLIB"
 fi
-bash "$MYPATH/values.sh" "$SMNEWVER"
+>&2 echo bash "$MYPATH/values.sh" "$SMVERNEW"
+bash "$MYPATH/values.sh" "$SMVERNEW"
