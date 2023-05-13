@@ -8,6 +8,40 @@ to work with at any given time.
 With this concept, tools have been developed and will be
 enhanced over time.
 
+* Secrets Management through Merging Environments
+
+This idea first came to us when we were working on having
+SiteMinder shares the same AuthHub Enclave service.
+Let us say we have a sample environment ahdemo which is
+pre-configured to build a AuthHub demo system without
+much concern over the many secrets it does use.
+
+Then we need a sample environment ahdemosm that contains
+a sample definition on how a SiteMinder container form
+factor can be built without its own settings to do
+its own Enclave services. The issue with SiteMinder,
+however, is the fact it needs a policy store minimally.
+With a Symantec directory policy store, then we will
+need to have the directory service endpoint, the base DN,
+the user DN, and the secrets for the case of an existing
+policy store to deal with.
+
+So the patchenv.sh was created to allow us to merge the
+three sets of env.shlib. We first modify the ahdemo to
+give it the final touch of the AuthHub we want to build.
+We do the make.sh there and go about the deloyment of
+the AuthHub. We then patching the env.shlib of the 
+ahdemosm so that it inherits all the settings the
+AuthHub environment uses. We then go the secrets
+environment when the directory service endpoint and
+other secrets were kept and use it to patch the 
+ahdemosm again.
+
+We can then go back to ahdemosm to do the make.sh and
+follow through the steps that are required to deploy
+a SiteMinder Container Form factor that shares the
+same Enclave service of an AuthHub cluster.
+
 * Pre-requisites
 
 This Environment concept requires you to have read/write
