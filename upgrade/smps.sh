@@ -31,7 +31,10 @@ psrelpreq() {
 	tag="$(jq -r '.[] | select(.version == "'$_ver'") | .app_version' "$HELMSEARCH")"
 	newtag="$(jq -r '.[] | select(.version == "'$_newver'") | .app_version' "$HELMSEARCH")"
 	tag0="$(yq -r '.policyServer.tag' "$PSVALUES")"
-	if [[ "$(yq -r '.policyServer.replicas' "$PSVALUES")" < "$PSMIN" ]] ; then
+        if [[ -z "$newtag" ]] ; then
+            >&2 echo Unable to determine the app version of the helm chart version "$_newver"
+	    echo 1
+	elif [[ "$(yq -r '.policyServer.replicas' "$PSVALUES")" < "$PSMIN" ]] ; then
 	    >&2 echo running policy server pod replica is insufficient to continue, expect $PSMIN minimally
 	    echo 1
 	elif [[ "$tag" = "$tag0" ]] ; then

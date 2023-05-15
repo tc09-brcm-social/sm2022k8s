@@ -32,7 +32,10 @@ psrelpreq() {
 	tag="$(jq -r '.[] | select(.version == "'$_ver'") | .app_version' "$HELMSEARCH")"
 	newtag="$(jq -r '.[] | select(.version == "'$_newver'") | .app_version' "$HELMSEARCH")"
 	tag0="$(yq -r '.admin.adminUI.tag' "$PSVALUES")"
-	if [[ ! "$pstag" = "$newtag" ]] ; then
+	if [[ -z "$newtag" ]] ; then
+	    >&2 echo Unable to determine the app version of the helm chart version "$_newver"
+	    echo 1
+	elif [[ ! "$pstag" = "$newtag" ]] ; then
 	    >&2 echo Policy Server Pod $pstag has not yet upgraded to new version $newtag
 	    echo 1
 	elif [[ "$tag" = "$tag0" ]] ; then
