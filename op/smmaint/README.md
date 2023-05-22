@@ -5,3 +5,5 @@ for the SiteMinder Maintenance Jobs:
 * pods.sh -- show the current SiteMinder Maintenance Job pods and
         * container status using same format as build/pods.sh
 	* This is only useful when the maintenance job is not yet complete
+* containers.sh -- show the current Maintenance Job and 
+	* container status
