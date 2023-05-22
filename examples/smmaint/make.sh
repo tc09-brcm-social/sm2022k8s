@@ -25,7 +25,7 @@ if [[ ! -z "$VERSHLIB" ]] ; then
 fi
 if [[ ! -z "$(relexist "$PSNS" "$SMMAINTREL" )" ]] ; then
     bash "$MYPATH/../../envs/common/smmaint/rtvalues.sh" | bash "$OP" > "$SMMAINTVALUES"
-elif [[ -z "$(relexist "$PSNS" "PSREL" ]] ; then
+elif [[ -z "$(relexist "$PSNS" "$PSREL")" ]] ; then
     bash "$MYPATH/../../envs/common/sc/values.sh" | bash "$OP" > "$SMMAINTVALUES"
 else
     bash "$MYPATH/../../envs/common/sc/rtvalues.sh" | bash "$OP" > "$SMMAINTVALUES"
