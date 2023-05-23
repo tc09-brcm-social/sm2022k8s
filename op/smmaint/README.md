@@ -7,3 +7,4 @@ for the SiteMinder Maintenance Jobs:
 	* This is only useful when the maintenance job is not yet complete
 * containers.sh -- show the current Maintenance Job and 
 	* container status
+* fixgit.sh -- fix a bug where smmaint does not create github secret
