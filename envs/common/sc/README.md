@@ -26,8 +26,10 @@ Commonly used tools to help build a ps-values.yaml.
 * pspod0.sh -- disable policy server pod
 * pspod1.sh -- policy server pod enabled
 * pstore1.sh -- Policy Store using Symantec Directory
+* pstore2.sh -- Policy Store using MSSQL
 * rconfigrGit1.sh -- runtime Config Retriever Using Git
 * registry.sh -- docker registry settings
 * stores0.sh -- simple other stores, no session store
+* stores2.sh -- simple other stores, session store using MSSQL
 * upgradeps1.sh -- upgrade policy server pod from SMTAG to SMNEWTAG
 * upgradeadmin1.sh -- upgrade administrative server pod with XPS schema upgrade 
