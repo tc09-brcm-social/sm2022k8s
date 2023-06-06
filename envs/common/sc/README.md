@@ -29,6 +29,8 @@ Commonly used tools to help build a ps-values.yaml.
 * pstore2.sh -- Policy Store using MSSQL
 * rconfigrGit1.sh -- runtime Config Retriever Using Git
 * registry.sh -- docker registry settings
+* rmAdmin.sh -- remove the administrative pod component
+	* Maintenance chart does not seem to need the administrative pod component
 * stores0.sh -- simple other stores, no session store
 * stores2.sh -- simple other stores, session store using MSSQL
 * upgradeps1.sh -- upgrade policy server pod from SMTAG to SMNEWTAG
