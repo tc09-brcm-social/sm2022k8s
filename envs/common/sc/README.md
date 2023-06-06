@@ -19,6 +19,8 @@ Commonly used tools to help build a ps-values.yaml.
 * enfdefault.sh -- enforce certain required defaults
 * adminpod0.sh -- disable Administrative Server Pod
 * adminpod1.sh -- Administrative Server Pod enabled
+* adminpod1full.sh -- Administrative Server Pod enabled with
+	* keyupdate and keygen
 * configrGit1.sh -- Config Retriver Using Git
 * ingress1.sh -- Admin UI Ingress configuration
 * pscNP.sh -- policy server container using NodePort and
