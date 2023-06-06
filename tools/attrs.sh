@@ -47,7 +47,7 @@ prattr() {
             prattr "$_lead[$(echo "$KEYS" | jq -r ".[$i]")]"
         done
         if [ "$len" -eq 0 ] ; then
-            echo $_lead'[]'
+            echo $_lead
         fi
     else
         echo "$_lead"
