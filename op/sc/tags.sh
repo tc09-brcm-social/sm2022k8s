@@ -25,16 +25,28 @@ minmax() {
 
 add() {
     local taglabel="$1"
+    local rttag="$(yq -r "$taglabel" "$RTYAML")"
     local tag="$(yq -r "$taglabel" "$YAML")"
+    if [[ ! "$rttag" = null ]] ; then
+	tag="$rttag"
+    fi
     taglabel="$(echo "$taglabel" | sed 's/^./."/')"
     JSON="$(echo "$JSON" \
 	    | jq ".tags$taglabel\" = \"$tag\"" )"
     }
-bash ../../envs/common/sc/rtvalues.sh > "$YAML"
+RTYAML="$$r.yaml"
+bash ../../envs/common/sc/values.sh > "$YAML"
+bash ../../envs/common/sc/rtvalues.sh > "$RTYAML"
 LEN=$(echo "$TAGS" | jq 'length')
 for (( i = 0; i < $LEN; ++i )); do
 	TAGLABEL="$(echo "$TAGS" | jq -r ".[$i]")"
 	add "$TAGLABEL"
-	minmax "$(yq -r "$(echo "$TAGS" | jq -r ".[$i]")" "$YAML")"
+	a="$(yq -r "$(echo "$TAGS" | jq -r ".[$i]")" "$RTYAML")"
+	b="$(yq -r "$(echo "$TAGS" | jq -r ".[$i]")" "$YAML")"
+	if [[ ! "$a" = null ]] ; then
+	    b="$a"
+        fi
+	minmax "$b"
+#	minmax "$(yq -r "$(echo "$TAGS" | jq -r ".[$i]")" "$YAML")"
 done
 echo "$JSON" | jq '.'
