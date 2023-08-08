@@ -60,8 +60,18 @@ doingresshelm() {
     }
 
 #
+## doscc
+#
+doscc () {
+    if [[ ! -z "$OCSCCRT" ]] ; then
+	bash "$OCSCCRT"
+    fi
+    }
+
+#
 ## Starts Here
 #
+doscc
 doingressrepo
 doingresshelm template "$INGRESSREL.$INGRESS.$$.yaml"
 doingresshelm install "$INGRESSREL.$INGRESS.$$.debug" "--debug"
