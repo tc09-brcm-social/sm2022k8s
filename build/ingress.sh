@@ -41,9 +41,14 @@ doingresshelm() {
                 $INGRESSVER \
 		"$_option" > "$_output"
         else
-            helm "$_action" "$INGRESSREL" -n "$INGRESS" "$INGRESSREPO/ingress-nginx" \
-	    -f "$INGRESSVALUES" \
-	    "$INGRESSVER" $_option > "$_output"
+            cat "$INGRESSVALUES" \
+                | if [[ -z "$INGRESSRTVALUES" ]] ; then cat - ; else \
+                      bash "$INGRESSRTVALUES"
+	          fi \
+	        | tee $$.ingress.yaml \
+                | helm "$_action" "$INGRESSREL" -n "$INGRESS" "$INGRESSREPO/ingress-nginx" \
+		  -f - \
+	          "$INGRESSVER" $_option > "$_output"
         fi
 #
 #
