@@ -259,7 +259,6 @@ if [[ ! -z "$PROMETHEUSCHART" ]] ; then
     doprometheusophelm template "$PROMETHEUSREL.$MONITORING.$$.yaml"
     doprometheusophelm install "$PROMETHEUSREL.$MONITORING.$$.debug" "--debug"
 fi
-exit
 dografanaophelm template "$GRAFANAREL.$MONITORING.$$.yaml"
 dografanaophelm install "$GRAFANAREL.$MONITORING.$$.debug" "--debug"
 dografanadsk8s "grafanads.$MONITORING.$$.debug"
