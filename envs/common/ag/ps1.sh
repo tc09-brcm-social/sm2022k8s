@@ -18,7 +18,7 @@ fi
         | .sso.accessGateway.trustedHost = $th
         | .sso.accessGateway.aco = $a
         | .sso.accessGateway.hco = $h
-        | .masterkey.masterKeySeed = $m
+        | .global.keySeed = $m
         | .sso.adminPassword = $p
         | .sso.adminUsername = $u
         '
