@@ -8,7 +8,8 @@ fi
 GITURI="https://$GITREPOBASE;$GITBRANCH"
     yq -Y --arg s "$AGNAME" --arg u "$GITURI" \
             --arg i "$GITID" --arg k $(b64enc "$GITPAT") \
-        ' .sso.configuration.type = "git"
+        ' .sso.configuration.enabled = true
+        | .sso.configuration.type = "git"
         | .sso.configuration.source = $u
         | .sso.configuration.git.creds = "gitcreds"
         | .sso.configuration.git.username = $i
