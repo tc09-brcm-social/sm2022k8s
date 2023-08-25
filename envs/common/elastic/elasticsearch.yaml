@@ -6,8 +6,8 @@ metadata:
     app: elasticsearch-master
   namespace: logging
 spec:
-  version: 8.2.0
-  #image: private.registry.io/elasticsearch/elasticsearch: 8.2.0
+  version: 8.6.0
+  #image: private.registry.io/elasticsearch/elasticsearch: 8.6.0
   http:
     service:
       metadata:
@@ -37,7 +37,7 @@ spec:
       - metadata:
           name: elasticsearch-data
         spec:
-          storageClassName: test
+          #storageClassName: test
           accessModes:
           - ReadWriteOnce
           resources:
