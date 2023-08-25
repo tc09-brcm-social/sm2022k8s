@@ -8,7 +8,8 @@ fi
 GITURI="https://$GITREPOBASE;$GITBRANCH"
     yq -Y --arg u "$GITURI" \
 	  --arg i "$GITID" --arg k $(b64enc "$GITPAT") \
-	 ' .global.configuration.type = "git"
+	 ' .global.configuration.enabled = true
+        | .global.configuration.type = "git"
         | .admin.configuration.source = $u
         | .admin.configuration.gitFolderPath = "/deploy/admin"
         | .global.configuration.git.username = $i
