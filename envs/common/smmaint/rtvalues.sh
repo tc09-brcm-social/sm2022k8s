@@ -5,4 +5,4 @@ cd "${MYPATH}"
 if [[ ! -z "$VERSHLIB" ]] ; then
     . "${MYPATH}/../../../base/$VERSHLIB"
 fi
-helm get values "$SMMAINTREL" -n "$PSNS"
+helm get values "$SMMAINTREL" -n "$PSNS" -o yaml
