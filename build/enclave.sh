@@ -213,10 +213,15 @@ dografanaophelm() {
             "$MONITORING"
     fi
     if [[ -z "$(relexist "$MONITORING" "$GRAFANAREL")" ]] ; then
-            helm "$_action" "$GRAFANAREL" -n "$MONITORING" $PROMETHEUSREPO/grafana-operator \
-	        -f "$GRAFANAOPVALUES" \
-                $GRAFANAVER \
-                $_option > "$_output"
+        cat "$GRAFANAOPVALUES" \
+        | if [[ -z "$GRAFANAOPRTVALUES" ]] ; then cat - ; else \
+              bash "$GRAFANAOPRTVALUES"
+          fi \
+        | tee $$.grafanaop.yaml \
+        | helm "$_action" "$GRAFANAREL" -n "$MONITORING" $PROMETHEUSREPO/grafana-operator \
+	      -f - \
+              $GRAFANAVER \
+              $_option > "$_output"
     else
         >&2 echo release $GRAFANAREL exits
     fi
@@ -254,6 +259,7 @@ doelasticophelm template "$ELASTICOPREL.$LOGGING.$$.yaml"
 doelasticophelm install "$ELASTICOPREL.$LOGGING.$$.debug" "--debug"
 doelastick8s "$ELASTICREL.$LOGGING.$$.debug"
 dokibanak8s "$KIBANAREL.$LOGGING.$$.debug"
+exit
 doprometheusrepo
 if [[ ! -z "$PROMETHEUSCHART" ]] ; then
     doprometheusophelm template "$PROMETHEUSREL.$MONITORING.$$.yaml"
@@ -261,4 +267,5 @@ if [[ ! -z "$PROMETHEUSCHART" ]] ; then
 fi
 dografanaophelm template "$GRAFANAREL.$MONITORING.$$.yaml"
 dografanaophelm install "$GRAFANAREL.$MONITORING.$$.debug" "--debug"
+exit
 dografanadsk8s "grafanads.$MONITORING.$$.debug"
