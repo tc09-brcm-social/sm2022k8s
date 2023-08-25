@@ -18,8 +18,13 @@ createns "$AGNS"
 ## Install SiteMinder Access Gateway chart
 #
 if [[ -z "$(relexist "$AGNS" "$AGREL")" ]] ; then
-    helm install "$AGREL" -n ${AGNS} \
-        $SMREPO/access-gateway $SMVER -f "$AGVALUES" \
+    cat "$AGVALUES" \
+    | if [[ -z "$AGRTVALUES" ]] ; then cat - ; else \
+          bash "$AGRTVALUES"
+      fi \
+    | tee $$.ag.yaml \
+    |  helm install "$AGREL" -n ${AGNS} \
+        $SMREPO/access-gateway $SMVER -f - \
         --debug > "$AGREL.$AGNS.$$.debug"
 else
     >&2 echo release $AGREL exists, attempt to upgrade

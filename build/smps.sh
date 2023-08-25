@@ -18,8 +18,13 @@ createns "$PSNS"
 ## Install SiteMinder Server Components chart
 #
 if [[ -z "$(relexist "$PSNS" "$PSREL")" ]] ; then
-    helm install "$PSREL" -n ${PSNS} \
-        $SMREPO/server-components $SMVER -f "$PSVALUES" \
+    cat "$PSVALUES" \
+    | if [[ -z "$SCRTVALUES" ]] ; then cat - ; else \
+          bash "$SCRTVALUES"
+      fi \
+    | tee $$.smps.yaml \
+    | helm install "$PSREL" -n ${PSNS} \
+        $SMREPO/server-components $SMVER -f - \
 	--debug > "$PSREL.$PSNS.$$.debug"
 #        $SMREPO/server-components --set admin.enabled=true \
 #        --set policyServer.enabled=true -f "$PSVALUES"
