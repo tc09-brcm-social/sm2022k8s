@@ -13,6 +13,7 @@ else
 fi
 
 createns "$AGNS"
+ocpprometheus "$AGNS" "$AGOCPRT"
 
 #
 ## Install SiteMinder Access Gateway chart

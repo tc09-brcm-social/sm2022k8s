@@ -13,6 +13,7 @@ else
 fi
 
 createns "$PSNS"
+ocpprometheus "$PSNS" "$SCOCPRT"
 
 #
 ## Install SiteMinder Server Components chart
