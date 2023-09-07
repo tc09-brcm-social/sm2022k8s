@@ -204,6 +204,7 @@ dografanaophelm() {
     local _output="$2"
     local _option="$3"
 
+    createns "$MONITORING"
     createtls "${MONITORING}" "$MONITORINGTLS" "$MONITORINGPEM" "$MONITORINGKEY"
     if [[ -z "$PROMETHEUSDOCKERSECRET" ]] ; then
         >&2 echo Not using Prometheus docker registry pull secret
@@ -218,7 +219,7 @@ dografanaophelm() {
               bash "$GRAFANAOPRTVALUES"
           fi \
         | tee $$.grafanaop.yaml \
-        | helm "$_action" "$GRAFANAREL" -n "$MONITORING" $PROMETHEUSREPO/grafana-operator \
+        | helm "$_action" "$GRAFANAREL" -n "$MONITORING" $PROMETHEUSREPO/$GRAFANACHART \
 	      -f - \
               $GRAFANAVER \
               $_option > "$_output"
@@ -234,14 +235,20 @@ dografanadsk8s() {
     local _option="$2"
 
     if [[ -z "$(k8sobjexist "$MONITORING" GrafanaDataSource grafana-datasource)" ]] ; then
-        if [[ -z "$GRAFANADSYAML" ]] ; then
-	    GRAFANADSYAML="${MYPATH}/../base/grafana-datasource.yaml"
-	fi
-            cat "$GRAFANADSYAML" \
-                | yq -Y --arg n "$MONITORING" \
+	# OCP or not
+        if [[ ! -z "$GRAFANADSOCP" ]] ; then
+	    bash "$GRAFANADSOCP"
+        else
+            if [[ ! -z "$GRAFANADSYAML" ]] ; then
+                cat "$GRAFANADSYAML" \
+                    | yq -Y --arg n "$MONITORING" \
 		      '.metadata.namespace = $n
 		      ' \
-                | kubectl apply -n "$MONITORING" -f - $_option > "$_output"
+                    | kubectl apply -n "$MONITORING" -f - $_option > "$_output"
+	    else
+                >&2 echo env.shlib issue, unable to create GrafanaDataSource grafana-datasource exits
+	    fi
+        fi
     else
         >&2 echo GrafanaDataSource grafana-datasource exits
     fi
@@ -259,7 +266,6 @@ doelasticophelm template "$ELASTICOPREL.$LOGGING.$$.yaml"
 doelasticophelm install "$ELASTICOPREL.$LOGGING.$$.debug" "--debug"
 doelastick8s "$ELASTICREL.$LOGGING.$$.debug"
 dokibanak8s "$KIBANAREL.$LOGGING.$$.debug"
-exit
 doprometheusrepo
 if [[ ! -z "$PROMETHEUSCHART" ]] ; then
     doprometheusophelm template "$PROMETHEUSREL.$MONITORING.$$.yaml"
@@ -267,5 +273,4 @@ if [[ ! -z "$PROMETHEUSCHART" ]] ; then
 fi
 dografanaophelm template "$GRAFANAREL.$MONITORING.$$.yaml"
 dografanaophelm install "$GRAFANAREL.$MONITORING.$$.debug" "--debug"
-exit
 dografanadsk8s "grafanads.$MONITORING.$$.debug"
