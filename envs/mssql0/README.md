@@ -1,7 +1,9 @@
 # envs/mssql0
 A sample environment that uses MSSQL as stores.
-This is a remake of the mssql1, it does not create its own git branch.
-The ag portion has not yet fully tested.
+This is a remake of the old mssql1, it does not create its own git branch.
+
+* env.shlib is an example for non-ocp platform.
+* env.shlib.ocp is an example for ocp platform.
 
 Modify the env.shlib to set your own environment.
 

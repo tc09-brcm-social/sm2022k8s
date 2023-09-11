@@ -18,5 +18,5 @@ for i in $LINES ; do
 done
 envbase PSVALUES "$MYPATH/ps-values.yaml"
 envbase AGVALUES "$MYPATH/ag-values.yaml"
-bash "$MYPATH/ps-values.sh" > "$MYPATH/ps-values.yaml"
-bash "$MYPATH/ag-values.sh" > "$MYPATH/ag-values.yaml"
+bash "$SCVALUES" > "$MYPATH/ps-values.yaml"
+bash "$AGVALUES" > "$MYPATH/ag-values.yaml"
