@@ -1,6 +1,9 @@
 # envs/ahdemo
 A sample AuthHub Demo environment.
 
+* env.shlib -- sample configuration for non-ocp implementation
+* env.shlib.ocp -- sample configuration file for ocp
+
 Procedure to set it up
 * configure the <<home>>>/env.shlib to pick the Cloud Provider
 * configure the cluster/<<CLOUD>>/env.shlib to set proper
