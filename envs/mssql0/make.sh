@@ -20,3 +20,11 @@ envbase PSVALUES "$MYPATH/ps-values.yaml"
 envbase AGVALUES "$MYPATH/ag-values.yaml"
 bash "$GSCVALUES" > "$MYPATH/ps-values.yaml"
 bash "$GAGVALUES" > "$MYPATH/ag-values.yaml"
+if [[ ! -z "$GPROADPVALUES" ]] ; then
+    bash "$GPROADPVALUES" > "$MYPATH/proadp-values.yaml"
+    envbase PROADPVALUES "$MYPATH/proadp-values.yaml"
+fi
+if [[ ! -z "$GSMINFRAVALUES" ]] ; then
+    bash "$GSMINFRAVALUES" > "$MYPATH/sminfra-values.yaml"
+    envbase SMINFRAVALUES "$MYPATH/sminfra-values.yaml"
+fi
