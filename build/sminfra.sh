@@ -108,6 +108,23 @@ dosminfra() {
 	    $_option > "$_output"
     fi
     }
+
+fixfluentbit() {
+    if [[ ! -z "$(k8sobjexist "$SMINFRANS" cm siteminder-infra-config)" ]] ; then
+        >&2 echo fixing configmap siteminder-infra-config in "$SMINFRANS"
+	CMYAML="$$.cm.yaml"
+	kubectl get cm siteminder-infra-config -o yaml -n "$SMINFRANS" > "$CMYAML"
+	sed -i '/^  *Buffer_Size .*/d' "$CMYAML"
+	sed -i '/#Use_Journal/a \        Buffer_Size         64KB' "$CMYAML"
+	cat "$CMYAML" \
+	    | if [[ -z "$KIBANADEFUSERSECRET" ]] ; then cat - ; else \
+	          sed "s/HTTP_User .*/HTTP_User $KIBANADEFUSERNAME/" \
+	        | sed "s/HTTP_Passwd .*/HTTP_Passwd $KIBANADEFUSERPWD/"
+	       fi \
+            | kubectl apply -f -
+	kubectl rollout restart daemonset/siteminder-infra-fluent-bit -n "$SMINFRANS"
+    fi
+    }
 #
 ## Starts Here
 #
@@ -116,3 +133,4 @@ doproadp template "$PROADPREL.$PROADPNS.$$.yaml"
 doproadp install "$PROADPREL.$PROADPNS.$$.debug" "--debug"
 dosminfra template "$SMINFRAREL.$SMINFRANS.$$.yaml"
 dosminfra install "$SMINFRAREL.$SMINFRANS.$$.debug" "--debug"
+fixfluentbit
