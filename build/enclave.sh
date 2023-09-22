@@ -102,6 +102,7 @@ doelastick8s() {
 		    --arg v "$(echo "$ELASTICVER" | cut -f2 -d=)" \
 		    '.metadata.namespace = $n
 		    | .spec.version = $v ' \
+	    | tee $$.elasticsearch.yaml \
             | kubectl apply -f - $_option > "$_output"
     else
         >&2 echo Elasticsearch elasticsearch exits
@@ -134,6 +135,7 @@ dokibanak8s() {
 		      | .spec.version = $v
 		      | .spec.http.tls.selfSignedCertificate.subjectAltNames[0].dns = $d
 		      ' \
+		| tee $$.kibana.yaml \
                 | kubectl apply -f - $_option > "$_output"
     else
         >&2 echo Kibana kibana exits
@@ -149,6 +151,7 @@ dokibanak8s() {
                        | .spec.rules[0].host = $d
 		       | .spec.tls[0].hosts[0] = $d
 		       | .spec.tls[0].secretName = $s ' \
+		| tee $$.kibanasvc.yaml \
                 | kubectl apply -f - $_option > "$_output"
     else
         >&2 echo Ingress kibana exits
