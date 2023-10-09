@@ -9,9 +9,9 @@ showenv
 gcloud container clusters create ${K8SNAME} \
     --zone=${ZONE} \
     --cluster-version=${K8SVER} \
-    --service-account="765314365699-compute@developer.gserviceaccount.com" \
     --machine-type=${MTYPE} --release-channel rapid --num-nodes=${NODESNUM} \
     --enable-autoscaling --min-nodes=${MINNODES} --max-nodes=${MAXNODES}
+#    --service-account="765314365699-compute@developer.gserviceaccount.com" \
 #
 ## To authorize user MYID
 #
