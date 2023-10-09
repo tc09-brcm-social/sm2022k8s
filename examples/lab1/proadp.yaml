@@ -1,0 +1,4 @@
+fluent-bit:
+  enabled: false
+prometheus-adapter:
+  enabled: true
