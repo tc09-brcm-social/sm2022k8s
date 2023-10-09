@@ -1,0 +1,105 @@
+prometheus:
+  persistence:
+    enabled: true
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: am.k8s.demo
+    tls: true
+    secrets:
+      - name: am.k8s.demo-tls
+        certificate: '-----BEGIN CERTIFICATE-----
+
+          MIIDCzCCAfOgAwIBAgIUCdP6peRN5zTVJTfLISoRicPtg1swDQYJKoZIhvcNAQEL
+
+          BQAwFTETMBEGA1UEAwwKKi5rOHMuZGVtbzAeFw0yMjA5MjMxNzM1NDJaFw0zMjA5
+
+          MjAxNzM1NDJaMBUxEzARBgNVBAMMCiouazhzLmRlbW8wggEiMA0GCSqGSIb3DQEB
+
+          AQUAA4IBDwAwggEKAoIBAQCiKbhy0POA9jxeOB24X6YMwFJOTO7zyBsGHXWPWOtt
+
+          +vBSX8JoJMbHoIJCLWMrJweeFzbwrvVZs+YIHnV2h4sDThflK3XsT9+kjyyy1S57
+
+          1DXzEasuPPpF7Szx5T5pCEDRnFpaawqkKMMmQ45QrBSFWpQA0gcmGtlLW7hkeKki
+
+          qlPtNigi1e93lkgjRPGod0XBA6zrwK2jzBY004bRyiCHAJhqkqM6xNub6U7QScm6
+
+          653Cd506bkqeOscblNMMhqCsRHXKRfh7SJUKJST3qWEEbLYFBZLeDDIjWyjoVQsm
+
+          gFlP93BQHEZG88PdGlJAimWczCDJ/UMvE81KKBIXqaCTAgMBAAGjUzBRMB0GA1Ud
+
+          DgQWBBTWM90x658eX/x5Njo0KOzRk6ZgEjAfBgNVHSMEGDAWgBTWM90x658eX/x5
+
+          Njo0KOzRk6ZgEjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQAX
+
+          L6mwmUFTepKCQ0nqWS4Vrm14Jjm5rFZfiFhwy2X5hT+birXQ5iPHZrCxSn2GaEDC
+
+          qxhev1Ie+cMXeeTnch598aB3iN37d6GC76kXgKd3mo3I6MNoVdgX/QcmT2G1nINy
+
+          068NmXFDaSVSdvuzrPefgMJNufCEl974sci1HK9s1yyAE97CxdAXT0pHREW7HpfU
+
+          3wrV7yAT8TyDK9AnIFW1BNSVc48dT17kXq9HQZpcHNs4lGAYWpJBihGvz55Rv6pu
+
+          3XouM103zHtEyUdTY9Ofsa7UwU0NnLSQbUQYWpsVD5yIVtcRpiyY4zFkogivaY4a
+
+          SWrO7vSENIQYZXifx7Cc
+
+          -----END CERTIFICATE-----'
+        key: '-----BEGIN PRIVATE KEY-----
+
+          MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCiKbhy0POA9jxe
+
+          OB24X6YMwFJOTO7zyBsGHXWPWOtt+vBSX8JoJMbHoIJCLWMrJweeFzbwrvVZs+YI
+
+          HnV2h4sDThflK3XsT9+kjyyy1S571DXzEasuPPpF7Szx5T5pCEDRnFpaawqkKMMm
+
+          Q45QrBSFWpQA0gcmGtlLW7hkeKkiqlPtNigi1e93lkgjRPGod0XBA6zrwK2jzBY0
+
+          04bRyiCHAJhqkqM6xNub6U7QScm6653Cd506bkqeOscblNMMhqCsRHXKRfh7SJUK
+
+          JST3qWEEbLYFBZLeDDIjWyjoVQsmgFlP93BQHEZG88PdGlJAimWczCDJ/UMvE81K
+
+          KBIXqaCTAgMBAAECggEBAJ15/HfreHzlIqywvBPfNuatIYCOb4Jn8e5XT2G8jSyJ
+
+          gzXLboQqKquTsMtJPkOarGgWzTCgBv1smVeLFLDdYd78yHGxadvpmRo6O8MTCQgR
+
+          ha6dmunVJ4oekAX8hEYFUMT9nDSwPG48c37GHf8zjN4PnyjIzU5wxlHLKV7QWheh
+
+          WtHvDyxGOCqh2qoroxNv7BPTt6NeGxcycTCH/jv8ie3dJPXf4+yWMJwJaYqnBs3I
+
+          OhXVyqvP5at2frtPbCwoxRgKrO7csVEmEf0sWVbSM8L9USyXV+YxZl2niaHOEEbx
+
+          7MbWrQ/wyVyQxOLGrAP6CCA0dVNAZlDiKQQF4bn6IfkCgYEA0y49kWS3xDNPeCk2
+
+          7sWc0y32SEbCuX+D+B8lXkgi3skESy8GUo4cF2ki9mKa/gEotqSMlSh1DJBYCgt0
+
+          40BsIqPhqqUCHgtyMd+7jMecHp1yVDnKaoJkJvf1z5oGmGBJcQ17DuXcthuXZcDB
+
+          LP8unEpj+wtcIhUGfojeoGL4tR8CgYEAxJRHAoXEFKpMMHBSPB8BPez9psbtI1b8
+
+          hbTxp+JXSXzbo+RVjvnfnZYHQdeadeZPSVIGdmc7HKV9nygtpbKW4ptFKhOzWLKi
+
+          8qg4jQVOpEqhsdQkiZoyMi7T0ea1tDgkI8K0CQ5BePyVVvDIcXUxBPpMCFFSHkjw
+
+          iyjDtxfr0g0CgYEAmGO50f1YDqDoK9Gx7kNzk4CLRESrp6g41wfCs3Jil1l/W7Gn
+
+          YlNiOhKIRDuLlNfJRWMgf1IehN50aWszAfovDiAsbDN+f6fK0+qbME+qfP0oz1aU
+
+          lp9ZHjW4kAKZ18NDu+z6bBm7Vz451hduTsYmIGoeE75y0bVSZmTmId7JkgkCgYAY
+
+          iHTQQMd22MYHaY0pyajLBK+nR75CodGEEk/yZtID7twueQmgfVjF/vpK4lB5lFOi
+
+          z+TUlA+RhKnH2ijQPBiOkVgxZyID2M9zP0FHgDkPUe0aF2Kz9ZV8I9H1qThWFIeW
+
+          Gu+DDc9n/QXaQtSRLFIA0Af7JcL82peCloTObeLVZQKBgQCnq107LbuwoabD6Tsu
+
+          AsVEBADci55JfIOPR6idBOmuqvesKU4ir6twihF1pA99HlPl6dTnkCk0adX5KrUv
+
+          TUj+6hFzbMvBSuvFexb+bSkWLzleydHwxr+advGsMbqnuBXlEIpbPMgu8S1fx+d8
+
+          8SXNPqnNW3w/807+HudL69ADbg==
+
+          -----END PRIVATE KEY-----'
+  persistence:
+    enabled: true

@@ -1,0 +1,15 @@
+operator:
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+grafana:
+  image:
+    tag: 9.1.0-debian-11-r0
+  config:
+    security:
+      admin_password: P@ssw0rd1
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: grafana.k8s.demo
+    tls: true
+    tlsSecret: monitoring-general-tls
