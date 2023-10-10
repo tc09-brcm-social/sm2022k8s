@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch
   labels:
     app: elasticsearch-master
-  namespace: monitoring
+  namespace: logging
 spec:
   version: 8.6.0
   http:
