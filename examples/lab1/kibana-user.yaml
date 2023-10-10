@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  password: UEBzc3cwcmQx
+  roles: c3VwZXJ1c2Vy
+  username: a2liYW5hLWFkbWlu
+kind: Secret
+type: Opaque
+metadata:
+  name: kibana-user
+  namespace: logging
