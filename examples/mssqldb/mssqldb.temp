@@ -1,0 +1,20 @@
+#!/bin/bash
+NAME=$1
+SA=$2
+PASS=$3
+cat << EOF
+create database $NAME
+go
+
+sp_addlogin '$SA', '$PASS', '$NAME'
+go
+
+use $NAME
+go
+
+sp_changedbowner '$SA'
+go
+
+quit
+EOF
+
